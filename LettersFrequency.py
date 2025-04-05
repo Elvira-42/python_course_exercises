@@ -1,0 +1,65 @@
+
+
+class Frequency:
+    def __init__(self,FileToProcess,dictionary={}):
+        self.FileToProcess = FileToProcess
+        self.dictionary = dictionary
+
+    def __repr__(self):
+        if not self.dictionary:
+            return "text: {}, dictionary: standard alphabet".format(self.FileToProcess)
+        else:
+            return "text {}, dictionary: {}".format(self.FileToProcess,self.dictionary)
+
+    def guess6(self, dictionaryExtras=[]):
+        #if no dictionary is provided, create dictionary of standard alphabetical characters
+        if not self.dictionary:
+            for i in range(ord("a"), ord('z') + 1):
+                self.dictionary[chr(i)] = 0
+        #if list with Dec references of extra characters is provided, add them to the dictionary
+        for i in dictionaryExtras:
+            self.dictionary[chr(i)]=0
+        if len(self.dictionary)<6:
+            raise IndexError ("The dictionary should have at least 6 entries", len(self.dictionary))
+        #populate the dictionary values
+        with open (self.FileToProcess) as fp:
+            for line in fp:
+                line=line.lower()
+                for ch in line:
+                    if ch in self.dictionary:
+                        self.dictionary[ch] = self.dictionary[ch]+1
+        #order frequencies high to low
+        freq=list(self.dictionary.values())
+        freq.sort(reverse=True)
+        #create new dictionary with most frequent 6 letters
+        f6=''
+        for i in range(6):
+            ind=list(self.dictionary.values()).index(freq[i])
+            key=list(self.dictionary.keys())[ind]
+            f6 += key
+        return f6
+
+
+
+#create list of extra characters, including numbers and italian accented letters
+extraChar=[]
+for i in range(0,10):
+    extraChar.append(ord(str(i)))
+dcodes=[224,232,233,236,242,249]
+for i in dcodes:
+    extraChar.append(i)
+
+
+
+YeOldeItalian = Frequency("divinaCommedia.txt")
+YeOldeItFrequency = YeOldeItalian.guess6(extraChar)
+print("Most frequent letters in old Italian: ", YeOldeItFrequency)
+
+YeOldeEnglish = Frequency("MerryWives.txt")
+YeOldeEnFrequency = YeOldeEnglish.guess6()
+print("Most frequent letters in old English: ", YeOldeEnFrequency)
+
+ModernEnglish=Frequency("PrideAndPrejudice.txt")
+NewEnFrequency = ModernEnglish.guess6()
+print("Most frequent letters in modern English: ", NewEnFrequency)
+
