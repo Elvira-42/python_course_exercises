@@ -1,4 +1,9 @@
-
+"""
+Create a Frequency class to handle a text file. The class must have (at least) a property called
+fileToProcess, whose purpose is to store the text file managed by the class.
+– Assume the text file to be processed could be reasonably long (hence, big in size).
+– Use .txt as the standard suffix for file names.
+"""
 
 class Frequency:
     def __init__(self,FileToProcess,dictionary={}):
@@ -11,6 +16,21 @@ class Frequency:
         else:
             return "text {}, dictionary: {}".format(self.FileToProcess,self.dictionary)
 
+"""
+Create a guess6 method that analyzes fileToProcess as follows:
+– Reads the file managed by the class (using an appropriate strategy for its length).
+– Returns the string composed of the six most frequent characters in fileToProcess, in de-
+scending order of frequency, considering the following rules:
+∗ Ignore the distinction between uppercase and lowercase letters.
+∗ Include accented letters.
+∗ Exclude punctuation and other symbols.
+∗ Include numbers.
+– In case of a tie in frequency, the characters should be sorted lexicographically.
+Use the file divinaCommedia.txt as the reference file, which contains The Divine Comedy in plain
+text format. The program must work with any text file given as input to the function.
+"""
+                                       
+    
     def guess6(self, dictionaryExtras=[]):
         #if no dictionary is provided, create dictionary of standard alphabetical characters
         if not self.dictionary:
